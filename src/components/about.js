@@ -6,7 +6,7 @@ class About extends Page {
   }
 
   render() {
-    const root = document.createTextNode('Hello, About!');
+    const root = document.createTextNode('About Page');
 
     return super.render(root);
   }

@@ -25,10 +25,12 @@ module.exports = {
   devtool: 'eval-source-map',
   entry: [
     path.resolve(__dirname, 'node_modules/core-js/stable/index.js'),
+    path.resolve(__dirname, 'node_modules/core-js/modules/es.promise.js'),
     path.resolve(
       __dirname,
       'node_modules/core-js/modules/es.array.iterator.js',
     ),
+    path.resolve(__dirname, 'node_modules/regenerator-runtime/runtime.js'),
     path.resolve(__dirname, 'src/index.js'),
   ],
   output: {
