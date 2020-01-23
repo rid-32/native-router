@@ -12,6 +12,13 @@ class Router {
     this.goBack = this.goBack.bind(this);
   }
 
+  get _routesList() {
+    return this._routes.map((route, index) => ({
+      route: `#${route}`,
+      active: index === this._currentRouteIndex,
+    }));
+  }
+
   _renderBy(route) {
     const component = new this._config[route]({
       history: {
@@ -19,11 +26,7 @@ class Router {
         goBack: this.goBack,
       },
     });
-    const list = this._routes.map((route, index) => ({
-      route: `#${route}`,
-      active: index === this._currentRouteIndex,
-    }));
-    const html = template({ list });
+    const html = template({ list: this._routesList });
     const dom = new DOMParser().parseFromString(html, 'text/html');
     const page = dom.body.querySelectorAll('[data-id="page"]')[0];
 
