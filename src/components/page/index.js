@@ -1,4 +1,4 @@
-import html from './index.html';
+import template from './index.handlebars';
 
 class Page {
   constructor(props) {
@@ -8,10 +8,11 @@ class Page {
   }
 
   _handleBackClick() {
-    this.props.browserHistory.goBack();
+    this.props.history.goBack();
   }
 
-  render({ children }) {
+  render({ children, disabled }) {
+    const html = template({ disabled });
     const dom = new DOMParser().parseFromString(html, 'text/html');
 
     const content = dom.querySelectorAll('[data-id="content"]')[0];

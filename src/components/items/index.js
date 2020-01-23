@@ -17,19 +17,20 @@ class Items extends Page {
   update({ items }) {
     const list = Object.values(items);
     const dom = this._getDOMWith({ loading: false, list });
+    const container = this._root.parentNode;
 
-    this._root.innerHTML = '';
-    this._root.appendChild(dom.body.firstElementChild);
+    container.innerHTML = '';
+    container.appendChild(dom.body.firstElementChild);
   }
 
-  render() {
+  render(props) {
     fetchItems().then(({ items }) => this.update({ items }));
 
     const dom = this._getDOMWith({ loading: true });
 
     this._root = dom.body.firstElementChild;
 
-    return super.render({ children: this._root });
+    return super.render({ children: this._root, ...props });
   }
 }
 

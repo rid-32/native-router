@@ -1,9 +1,20 @@
-<div>
+<div class="container">
   {{#if loading}}
-    <span>Loading...</span>
+    <div class="spinner-border text-primary" role="status" style="display:block;margin-left:auto;margin-right:auto">
+      <span class="sr-only">Загрузка...</span>
+    </div>
   {{/if}}
 
-  {{#each list}}
-  <div>{{this.name}}:{{this.quantity}}:{{this.price}}</div>
-  {{/each}}
+  {{#if list}}
+    <div class="row">
+      {{#list}}
+        <div class="card col">
+          <div class="card-body">
+            <h5 class="card-title">{{name}}</h5>
+            <p class="card-text">Цена: {{price}}<br>Количество: {{quantity}}</p>
+          </div>
+        </div>
+      {{/list}}
+    </div>
+  {{/if}}
 </div>

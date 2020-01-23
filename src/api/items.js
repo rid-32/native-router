@@ -4,5 +4,5 @@ export const fetchItems = () =>
   new Promise(res => {
     setTimeout(() => {
       res(items);
-    }, 1500);
+    }, 500);
   });

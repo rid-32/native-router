@@ -6,10 +6,10 @@ class About extends Page {
     super(props);
   }
 
-  render() {
+  render(props) {
     const dom = new DOMParser().parseFromString(html, 'text/html');
 
-    return super.render({ children: dom.body.firstElementChild });
+    return super.render({ children: dom.body.firstElementChild, ...props });
   }
 }
 

@@ -10,11 +10,11 @@ class Menu extends Page {
   }
 
   _handleItemsClick() {
-    this.props.hashHistory.push('items');
+    this.props.history.push('items');
   }
 
   _handleAboutClick() {
-    this.props.hashHistory.push('about');
+    this.props.history.push('about');
   }
 
   _addHandlerByDataId(node) {
@@ -26,9 +26,7 @@ class Menu extends Page {
     node.onclick = handlers[node.dataset.id];
   }
 
-  update() {}
-
-  render() {
+  render(props) {
     const dom = new DOMParser().parseFromString(html, 'text/html');
     const fragment = document.createDocumentFragment();
 
@@ -38,7 +36,7 @@ class Menu extends Page {
       fragment.appendChild(node);
     });
 
-    return super.render({ children: fragment });
+    return super.render({ children: fragment, ...props });
   }
 }
 

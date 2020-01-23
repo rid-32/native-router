@@ -1,51 +1,69 @@
-import { createHashHistory, createBrowserHistory } from 'history';
-
-const browserHistory = createBrowserHistory({
-  keyLength: 3,
-});
-const hashHistory = createHashHistory({
-  hashType: 'noslash',
-});
+import { HISTORY_LENGTH } from 'config/history';
 
 class Router {
   constructor(config) {
     this._node = null;
     this._config = config;
+    this._routes = [];
+    this._currentRouteIndex = -1;
 
-    browserHistory.listen(location => {
-      this._renderBy(location);
-    });
+    this.push = this.push.bind(this);
+    this.goBack = this.goBack.bind(this);
   }
 
-  _renderBy(location) {
-    const hashRoute = location.hash.slice(1);
+  _renderBy(route) {
+    const component = new this._config[route]({
+      history: {
+        push: this.push,
+        goBack: this.goBack,
+      },
+    });
 
-    if (hashRoute && this._config[hashRoute]) {
-      const component = new this._config[hashRoute]({
-        browserHistory,
-        hashHistory,
-      });
+    this._node.innerHTML = '';
+    this._node.appendChild(
+      component.render({ disabled: !this._currentRouteIndex }),
+    );
+  }
 
-      this._node.innerHTML = '';
-      this._node.appendChild(component.render());
-    } else {
-      const mainRoute = Object.keys(this._config)[0];
+  _addRoute(route) {
+    this._routes = [...this._routes, route].slice(-HISTORY_LENGTH);
+  }
 
-      hashHistory.push(mainRoute);
+  push(route) {
+    if (route in this._config) {
+      this._addRoute(route);
+
+      if (this._currentRouteIndex < HISTORY_LENGTH - 1) {
+        this._currentRouteIndex++;
+      }
+
+      this._renderBy(route);
     }
+  }
+
+  get _prevRouteIndex() {
+    const prevRouteIndex = this._currentRouteIndex
+      ? this._currentRouteIndex - 1
+      : 0;
+
+    return this._routes[prevRouteIndex];
+  }
+
+  goBack() {
+    const prevRouteIndex = this._prevRouteIndex;
+
+    if (this._currentRouteIndex > 0) {
+      this._currentRouteIndex--;
+    }
+
+    this._renderBy(prevRouteIndex);
   }
 
   renderTo(node) {
-    if (!node) {
-      console.error(
-        'HTML node element wasn`t passed to the renderTo() method!',
-      );
-
-      return;
-    }
+    const rootRoute = Object.keys(this._config)[0];
 
     this._node = node;
-    this._renderBy(browserHistory.location);
+    this.push(rootRoute);
   }
 }
 
