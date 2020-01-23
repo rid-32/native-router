@@ -1,0 +1,9 @@
+<div>
+  {{#if loading}}
+    <span>Loading...</span>
+  {{/if}}
+
+  {{#each list}}
+  <div>{{this.name}}:{{this.quantity}}:{{this.price}}</div>
+  {{/each}}
+</div>

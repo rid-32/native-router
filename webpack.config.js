@@ -9,6 +9,11 @@ const plugins = [
   }),
 ];
 
+const handlebarsLoader = {
+  test: /\.handlebars$/i,
+  loader: 'handlebars-loader',
+};
+
 const htmlLoader = {
   test: /\.html$/i,
   use: {
@@ -18,6 +23,11 @@ const htmlLoader = {
       minimize: true,
     },
   },
+};
+
+const styleLoader = {
+  test: /\.css$/i,
+  use: ['style-loader', 'css-loader'],
 };
 
 const jsxLoader = {
@@ -54,7 +64,7 @@ module.exports = {
     extensions,
   },
   module: {
-    rules: [jsxLoader, htmlLoader],
+    rules: [jsxLoader, htmlLoader, styleLoader, handlebarsLoader],
   },
   plugins,
   devServer: {

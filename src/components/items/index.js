@@ -1,3 +1,4 @@
+import template from './index.handlebars';
 import Page from 'components/page';
 
 import { fetchItems } from 'api/items';
@@ -7,28 +8,28 @@ class Items extends Page {
     super(props);
   }
 
+  _getDOMWith(context) {
+    const html = template(context);
+
+    return new DOMParser().parseFromString(html, 'text/html');
+  }
+
+  update({ items }) {
+    const list = Object.values(items);
+    const dom = this._getDOMWith({ loading: false, list });
+
+    this._root.innerHTML = '';
+    this._root.appendChild(dom.body.firstElementChild);
+  }
+
   render() {
-    const root = document.createElement('div');
-    const loading = document.createTextNode('Loading...');
+    fetchItems().then(({ items }) => this.update({ items }));
 
-    fetchItems().then(({ items }) => {
-      const list = document.createElement('ol');
+    const dom = this._getDOMWith({ loading: true });
 
-      for (const key in items) {
-        const item = items[key];
-        const listItem = document.createElement('li');
+    this._root = dom.body.firstElementChild;
 
-        listItem.innerHTML = `${item.name}:${item.quantity}:${item.price}`;
-        list.appendChild(listItem);
-      }
-
-      root.innerHTML = '';
-      root.appendChild(list);
-    });
-
-    root.appendChild(loading);
-
-    return super.render({ children: root });
+    return super.render({ children: this._root });
   }
 }
 
