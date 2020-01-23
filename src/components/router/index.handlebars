@@ -1,0 +1,11 @@
+<main>
+  <section data-id="history">
+    <ul class="list-group list-group-horizontal">
+      {{#list}}
+        <li class="list-group-item {{#if active}}active{{/if}}">{{route}}</li>
+      {{/list}}
+    </ul>
+  </section>
+
+  <section data-id="page"></section>
+</main>

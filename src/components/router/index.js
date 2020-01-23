@@ -1,3 +1,4 @@
+import template from './index.handlebars';
 import { HISTORY_LENGTH } from 'config/history';
 
 class Router {
@@ -18,14 +19,18 @@ class Router {
         goBack: this.goBack,
       },
     });
+    const list = this._routes.map((route, index) => ({
+      route: `#${route}`,
+      active: index === this._currentRouteIndex,
+    }));
+    const html = template({ list });
+    const dom = new DOMParser().parseFromString(html, 'text/html');
+    const page = dom.body.querySelectorAll('[data-id="page"]')[0];
+
+    page.appendChild(component.render({ disabled: !this._currentRouteIndex }));
 
     this._node.innerHTML = '';
-    this._node.appendChild(
-      component.render({ disabled: !this._currentRouteIndex }),
-    );
-
-    console.log({ routes: this._routes });
-    console.log({ currentRouteIndex: this._currentRouteIndex });
+    this._node.appendChild(dom.body.firstElementChild);
   }
 
   _addRoute(route) {
