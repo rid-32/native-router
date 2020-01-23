@@ -7,7 +7,7 @@ class Items extends Page {
   constructor(props) {
     super(props);
 
-    this._handleAboutClick = this._handleAboutClick.bind(this);
+    this._handleMenuClick = this._handleMenuClick.bind(this);
   }
 
   _getDOMWith(context) {
@@ -16,8 +16,8 @@ class Items extends Page {
     return new DOMParser().parseFromString(html, 'text/html');
   }
 
-  _handleAboutClick() {
-    this.props.history.push('about');
+  _handleMenuClick() {
+    this.props.history.push('menu');
   }
 
   update({ items }) {
@@ -25,9 +25,9 @@ class Items extends Page {
     const dom = this._getDOMWith({ loading: false, list });
     const container = this._root.parentNode;
 
-    const aboutButton = dom.body.querySelectorAll('[data-id="about"]')[0];
+    const menuButton = dom.body.querySelectorAll('[data-id="menu"]')[0];
 
-    aboutButton.onclick = this._handleAboutClick;
+    menuButton.onclick = this._handleMenuClick;
 
     container.innerHTML = '';
     container.appendChild(dom.body.firstElementChild);

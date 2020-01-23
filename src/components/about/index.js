@@ -5,18 +5,18 @@ class About extends Page {
   constructor(props) {
     super(props);
 
-    this._handleItemsClick = this._handleItemsClick.bind(this);
+    this._handleMenuClick = this._handleMenuClick.bind(this);
   }
 
-  _handleItemsClick() {
-    this.props.history.push('items');
+  _handleMenuClick() {
+    this.props.history.push('menu');
   }
 
   render(props) {
     const dom = new DOMParser().parseFromString(html, 'text/html');
-    const itemsButton = dom.body.querySelectorAll('[data-id="items"]')[0];
+    const menuButton = dom.body.querySelectorAll('[data-id="menu"]')[0];
 
-    itemsButton.onclick = this._handleItemsClick;
+    menuButton.onclick = this._handleMenuClick;
 
     return super.render({ children: dom.body.firstElementChild, ...props });
   }
