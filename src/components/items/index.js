@@ -6,6 +6,8 @@ import { fetchItems } from 'api/items';
 class Items extends Page {
   constructor(props) {
     super(props);
+
+    this._handleAboutClick = this._handleAboutClick.bind(this);
   }
 
   _getDOMWith(context) {
@@ -14,10 +16,18 @@ class Items extends Page {
     return new DOMParser().parseFromString(html, 'text/html');
   }
 
+  _handleAboutClick() {
+    this.props.history.push('about');
+  }
+
   update({ items }) {
     const list = Object.values(items);
     const dom = this._getDOMWith({ loading: false, list });
     const container = this._root.parentNode;
+
+    const aboutButton = dom.body.querySelectorAll('[data-id="about"]')[0];
+
+    aboutButton.onclick = this._handleAboutClick;
 
     container.innerHTML = '';
     container.appendChild(dom.body.firstElementChild);
