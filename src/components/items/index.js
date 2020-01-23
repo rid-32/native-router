@@ -1,4 +1,4 @@
-import Page from './page';
+import Page from 'components/page';
 
 import { fetchItems } from 'api/items';
 
@@ -28,7 +28,7 @@ class Items extends Page {
 
     root.appendChild(loading);
 
-    return super.render(root);
+    return super.render({ children: root });
   }
 }
 

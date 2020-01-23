@@ -9,6 +9,17 @@ const plugins = [
   }),
 ];
 
+const htmlLoader = {
+  test: /\.html$/i,
+  use: {
+    loader: 'html-loader',
+    options: {
+      attributes: true,
+      minimize: true,
+    },
+  },
+};
+
 const jsxLoader = {
   test: /\.(js|jsx)$/,
   exclude: /node_modules/,
@@ -43,7 +54,7 @@ module.exports = {
     extensions,
   },
   module: {
-    rules: [jsxLoader],
+    rules: [jsxLoader, htmlLoader],
   },
   plugins,
   devServer: {
