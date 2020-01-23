@@ -23,10 +23,20 @@ class Router {
     this._node.appendChild(
       component.render({ disabled: !this._currentRouteIndex }),
     );
+
+    console.log({ routes: this._routes });
+    console.log({ currentRouteIndex: this._currentRouteIndex });
   }
 
   _addRoute(route) {
-    this._routes = [...this._routes, route].slice(-HISTORY_LENGTH);
+    if (this._currentRouteIndex !== this._routes.length - 1) {
+      this._routes = [
+        ...this._routes.slice(0, this._currentRouteIndex + 1),
+        route,
+      ];
+    } else {
+      this._routes = [...this._routes, route].slice(-HISTORY_LENGTH);
+    }
   }
 
   push(route) {
